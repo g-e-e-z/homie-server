@@ -80,6 +80,8 @@ module.exports = {
         username,
         password,
         email,
+        liked: [],
+        disliked: [],
         createdAt: new Date().toISOString(),
       });
 

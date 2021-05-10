@@ -36,6 +36,8 @@ module.exports = gql`
     email: String!
     token: String!
     createdAt: String!
+    liked: [Post]!
+    disliked: [Post]!
   }
 
   type Query {
