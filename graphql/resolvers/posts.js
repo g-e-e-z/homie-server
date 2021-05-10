@@ -25,7 +25,8 @@ module.exports = {
         user: user.id,
         username: user.username,
         createdAt: new Date().toISOString(),
-        points: -3,
+        likes: 0,
+        dislikes: 0,
       });
       const post = await newPost.save();
 
