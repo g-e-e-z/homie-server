@@ -12,7 +12,7 @@ module.exports = gql`
     body: String!
     createdAt: String!
     username: String!
-    points: Int!
+    points: Float!
   }
 
   input RegisterInput {
@@ -36,5 +36,7 @@ module.exports = gql`
   type Mutation {
     register(registerInput: RegisterInput): User!
     login(username: String!, password: String!): User!
+    createPost(body: String!): Post
+    deletePost(postId: ID!): String!
   }
 `;

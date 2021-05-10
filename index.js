@@ -10,6 +10,7 @@ const { MONGODB } = require("./config.js");
 const server = new ApolloServer({
   typeDefs, // Would need to put typeDefs: typeDefs, but javascript ES6 infers
   resolvers,
+  context: ({ req }) => ({ req }),
 });
 
 mongoose
