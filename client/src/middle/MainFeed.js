@@ -1,9 +1,11 @@
 import React, { useState } from "react";
 import { useQuery } from "@apollo/react-hooks";
-import gql from "graphql-tag";
+import { FETCH_POSTS_QUERY } from "../util/graphql";
+
 // Material Imports
 import Tabs from "@material-ui/core/Tabs";
 import Tab from "@material-ui/core/Tab";
+import Grow from "@material-ui/core/Grow";
 
 // Component Imports
 import PostCard from "./PostCard";
@@ -32,33 +34,16 @@ function MainFeed() {
         ) : (
           data.getPosts &&
           data.getPosts.map((post) => (
-            <div className="feed-post" key={post.id}>
-              <PostCard post={post} />
-            </div>
+            <Grow in={true} timeout={200} key={post.id}>
+              <div className="feed-post" key={post.id}>
+                <PostCard post={post} />
+              </div>
+            </Grow>
           ))
         )}
       </div>
     </div>
   );
 }
-
-const FETCH_POSTS_QUERY = gql`
-  {
-    getPosts {
-      id
-      body
-      createdAt
-      username
-      likes
-      dislikes
-      comments {
-        id
-        username
-        createdAt
-        body
-      }
-    }
-  }
-`;
 
 export default MainFeed;
