@@ -44,12 +44,7 @@ function PostCard({
             <div className="post-title">{username}</div>
             <div className="post-time">{moment(createdAt).fromNow(true)}</div>
           </div>
-          <div className="post-body">
-            Lorem ipsum dolor sit amet, consectetur adipisicing elit.
-            Doloremque, minus cupiditate. Aperiam, vel, voluptatibus nulla
-            nesciunt magnam laboriosam similique, itaque repellendus excepturi
-            perferendis aliquam illo ex enim suscipit blanditiis qui!{body}
-          </div>
+          <div className="post-body">{body}</div>
           <div className="post-footer">
             <IconButton onClick={commentOnPost}>
               <MoreHorizOutlinedIcon className="comments" />

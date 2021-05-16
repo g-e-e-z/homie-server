@@ -34,6 +34,7 @@ function RegisterCard() {
 
   return (
     <div className="register-container">
+      <h1>Register</h1>
       <form className="register-card">
         <TextField
           fullWidth
