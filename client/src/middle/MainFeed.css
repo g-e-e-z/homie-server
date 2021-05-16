@@ -1,0 +1,14 @@
+.main-feed {
+  background-color: cornflowerblue;
+
+  flex: 0.4;
+}
+.feed-header {
+  display: flex;
+  justify-content: space-around;
+  align-items: baseline;
+}
+
+.feed-post {
+  padding-bottom: 10px;
+}

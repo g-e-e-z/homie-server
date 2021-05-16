@@ -1,10 +1,21 @@
+import "semantic-ui-css/semantic.min.css";
 import "./App.css";
+
+import UserPanel from "./left/UserPanel";
+import CommunityPanel from "./right/CommunityPanel";
+import MainFeed from "./middle/MainFeed";
+
+import { AuthProvider } from "./context/auth";
 
 function App() {
   return (
-    <div className="App">
-      <h1>🚀 Homie Time 🌑 </h1>
-    </div>
+    <AuthProvider>
+      <div className="ui-container">
+        <UserPanel />
+        <MainFeed />
+        <CommunityPanel />
+      </div>
+    </AuthProvider>
   );
 }
 

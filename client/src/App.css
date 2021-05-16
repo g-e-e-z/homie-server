@@ -1,0 +1,14 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+.ui-container {
+  display: flex;
+  height: 100vh;
+  max-width: 1500px;
+  margin-left: auto;
+  margin-right: auto;
+  padding: 0 10px;
+}
