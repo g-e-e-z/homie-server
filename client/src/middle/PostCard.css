@@ -6,6 +6,7 @@
   border-radius: 10px;
   margin: auto;
   display: flex;
+  position: relative;
   /* align-items: center;
   justify-content: center; */
 }
@@ -82,6 +83,8 @@
   right: 0;
   bottom: 0;
   flex-grow: 1;
+  display: flex;
+  margin-left: auto;
 }
 
 .post-meta {
@@ -96,3 +99,15 @@
   width: 20px;
   height: 20px;
 }
+
+.delete {
+  display: none !important;
+}
+
+.post-card:hover .delete {
+  display: flex !important;
+  font-size: 18;
+  max-height: 100% !important;
+  padding: 0;
+}
+/* TODO Add a fade on the hover */

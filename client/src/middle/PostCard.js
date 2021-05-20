@@ -1,24 +1,24 @@
-import React from "react";
+import React, { useContext } from "react";
 import "./PostCard.css";
-import KeyboardArrowUpIcon from "@material-ui/icons/KeyboardArrowUp";
-import KeyboardArrowDownIcon from "@material-ui/icons/KeyboardArrowDown";
 import MoreHorizOutlinedIcon from "@material-ui/icons/MoreHorizOutlined";
+import { Button } from "@material-ui/core";
 import moment from "moment";
-import { IconButton } from "@material-ui/core";
+
+import VoteButtons from "./VoteButtons";
+import DeleteButton from "./DeleteButton";
+
+import { AuthContext } from "../context/auth";
 
 function PostCard({
-  post: { body, createdAt, id, username, likes, dislikes },
+  post: { body, createdAt, id, username, likes, dislikes, comments },
 }) {
-  const votes = likes + dislikes;
+  const { user } = useContext(AuthContext);
 
-  function likePost() {
-    console.log(`Liked Post ${id}`);
-  }
-  function dislikePost() {
-    console.log(`Disiked Post ${id}`);
-  }
+  const votes = likes - dislikes;
+
   function commentOnPost() {
     console.log(`Commenting on Post ${id}`);
+    console.log(comments.length);
   }
 
   return (
@@ -26,13 +26,7 @@ function PostCard({
       <div className="post-header">
         <div className="post-left">
           <div className="post-votes">
-            <IconButton className="post-up" onClick={likePost}>
-              <KeyboardArrowUpIcon />
-            </IconButton>
-            <h5>{votes}</h5>
-            <IconButton className="post-dn" onClick={dislikePost}>
-              <KeyboardArrowDownIcon />
-            </IconButton>
+            <VoteButtons postId={id} user={user} votes={votes} />
           </div>
           <img
             src="https://semantic-ui.com/images/avatar2/large/matthew.png"
@@ -46,9 +40,17 @@ function PostCard({
           </div>
           <div className="post-body">{body}</div>
           <div className="post-footer">
-            <IconButton onClick={commentOnPost}>
-              <MoreHorizOutlinedIcon className="comments" />
-            </IconButton>
+            {user && user.username === username && (
+              <DeleteButton postId={id} userId={user.id} />
+            )}
+            <Button
+              onClick={commentOnPost}
+              variant="text"
+              size="small"
+              endIcon={<MoreHorizOutlinedIcon className="comments" />}
+            >
+              {comments.length}
+            </Button>
           </div>
         </div>
       </div>

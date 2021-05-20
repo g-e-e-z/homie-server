@@ -22,7 +22,7 @@ module.exports = {
     async createPost(_, { body }, context) {
       const user = checkAuth(context);
       if (body.trim() === "") {
-        catch (err) {throw new Error("Post body must not be empty");}
+        throw new Error("Post body must not be empty");
       }
 
       const newPost = new Post({
@@ -57,28 +57,20 @@ module.exports = {
     async likePost(_, { postId }, context) {
       const { username } = checkAuth(context);
       const user = await User.findOne({ username });
-      // console.log(user._doc);
-      // Veritfy Post Exists
       post = await Post.findById(postId);
-      // Check if user has already liked it
       if (post) {
-        if (user.liked.find((post) => post.postId === postId)) {
-          // console.log("User has already liked this post");
-        } else if (user.disliked.find((post) => post.postId === postId)) {
-          // console.log("User has disliked this post, switch to like");
-          const postIndex = user.disliked.findIndex((p) => p.id == postId);
+        if (user.liked.find((id) => id === postId)) {
+        } else if (user.disliked.find((id) => id === postId)) {
+          const postIndex = user.disliked.findIndex((id) => id == postId);
           user.disliked.splice(postIndex, 1);
           post.likes += 1;
           post.dislikes -= 1;
         } else {
-          // console.log("else block");
-          user.liked.push({
-            postId,
-          });
+          user.liked.push(postId);
           post.likes += 1;
-          await post.save();
-          await user.save();
         }
+        await post.save();
+        await user.save();
         return post;
       } else throw new UserInputError("Post not found");
     },
@@ -86,27 +78,20 @@ module.exports = {
     async dislikePost(_, { postId }, context) {
       const { username } = checkAuth(context);
       const user = await User.findOne({ username });
-      // Veritfy Post Exists
       post = await Post.findById(postId);
-      // Check if user has already liked it
       if (post) {
-        if (user.disliked.find((post) => post.postId === postId)) {
-          // console.log("User has already disliked this post");
-        } else if (user.liked.find((post) => post.postId === postId)) {
-          // console.log("User has liked this post, switch to dislike");
-          const postIndex = user.liked.findIndex((p) => p.id == postId);
+        if (user.disliked.find((id) => id === postId)) {
+        } else if (user.liked.find((id) => id === postId)) {
+          const postIndex = user.liked.findIndex((id) => id == postId);
           user.liked.splice(postIndex, 1);
           post.likes -= 1;
           post.dislikes += 1;
         } else {
-          // console.log("else block");
-          user.disliked.push({
-            postId,
-          });
+          user.disliked.push(postId);
           post.dislikes += 1;
-          await post.save();
-          await user.save();
         }
+        await post.save();
+        await user.save();
         return post;
       } else throw new UserInputError("Post not found");
     },

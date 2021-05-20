@@ -25,7 +25,12 @@ function Userpanel() {
     </div>
   ) : (
     <div className="user-panel">
-      <Tabs value={selectedTab} onChange={handleChange} centered>
+      <Tabs
+        className="login-tabs"
+        value={selectedTab}
+        onChange={handleChange}
+        centered
+      >
         <Tab label="Login" />
         <Tab label="Register" />
       </Tabs>

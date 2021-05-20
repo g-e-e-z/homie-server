@@ -36,12 +36,14 @@ module.exports = gql`
     email: String!
     token: String!
     createdAt: String!
-    liked: [Post]!
-    disliked: [Post]!
+    liked: [ID]!
+    disliked: [ID]!
   }
 
   type Query {
     getPosts: [Post]
+    getUsers: [User]
+    getUser(userId: ID!): User
   }
   type Mutation {
     register(registerInput: RegisterInput): User!

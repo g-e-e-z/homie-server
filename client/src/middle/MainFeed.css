@@ -1,12 +1,23 @@
 .main-feed {
-  background-color: cornflowerblue;
-
+  /* background-color: cornflowerblue; */
+  overflow-y: scroll;
   flex: 0.4;
 }
+
+.main-feed::-webkit-scrollbar {
+  display: none; /* Hide for Chrome/Safari/Opera */
+}
+
+.main-feed {
+  -ms-overflow-style: none; /* IE and Edge */
+  scrollbar-width: none; /* Firefox */
+}
+
 .feed-header {
   display: flex;
   justify-content: space-around;
   align-items: baseline;
+  padding-bottom: 5px;
 }
 
 .feed-post {
