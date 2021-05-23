@@ -7,6 +7,8 @@ import { AuthContext } from "../context/auth";
 import { Button, TextField } from "@material-ui/core";
 import { useForm } from "../util/hooks";
 
+import EditButton from "./EditButton.js";
+
 function UserCardL() {
   const { user, logout } = useContext(AuthContext);
   const { values, onChange, onSubmit } = useForm(createPostCallback, {
@@ -34,6 +36,8 @@ function UserCardL() {
     },
   });
 
+  // TODO If token has expired call logout onSubmit instead of attempting to submit
+
   function createPostCallback() {
     createPost();
   }
@@ -47,7 +51,6 @@ function UserCardL() {
             alt="boop"
             className="avatar"
           ></img>
-          {/* <h4>32</h4> */}
         </div>
         <div className="right-div">
           <div className="right-header">
@@ -63,18 +66,21 @@ function UserCardL() {
         </div>
       </div>
       <div className="post-container">
+        <EditButton />
         <form onSubmit={onSubmit}>
           <TextField
             id="outlined-multiline-static"
             label="Make a Post"
-            multiline
+            type="text"
+            // multiline
             rows={4}
-            defaultValue="What'chu tryna say?"
             variant="outlined"
+            placeholder="Post.."
             fullWidth
             name="body"
+            className="post-field"
             onChange={onChange}
-            value={values.body}
+            value={values.body || ""}
             error={error ? true : false}
             // error={"general" in errors}
             // helperText={error.general}
@@ -88,16 +94,16 @@ function UserCardL() {
             Submit
           </Button>
         </form>
-      </div>
 
-      <Button
-        type="submit"
-        variant="contained"
-        className="logout-btn"
-        onClick={logout}
-      >
-        Logout
-      </Button>
+        <Button
+          type="submit"
+          variant="contained"
+          className="logout-btn"
+          onClick={logout}
+        >
+          Logout
+        </Button>
+      </div>
     </div>
   );
 }

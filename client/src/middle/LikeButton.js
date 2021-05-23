@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from "react";
 import { useMutation } from "@apollo/react-hooks";
-
 import gql from "graphql-tag";
 
 import { IconButton } from "@material-ui/core";
 import KeyboardArrowUpIcon from "@material-ui/icons/KeyboardArrowUp";
+import { FETCH_POSTS_QUERY } from "../util/graphql";
 
 function LikeButton({ postId, user }) {
   const [liked, setLiked] = useState(false);
@@ -16,7 +16,10 @@ function LikeButton({ postId, user }) {
 
   const [likePost] = useMutation(LIKE_POST, {
     variables: { postId },
+    refetchQueries: { query: FETCH_POSTS_QUERY },
   });
+
+  console.log(user.liked);
 
   const likeIcon = liked ? "primary" : "disabled";
 
@@ -35,8 +38,6 @@ const LIKE_POST = gql`
   mutation LikePost($postId: ID!) {
     likePost(postId: $postId) {
       id
-      likes
-      dislikes
     }
   }
 `;

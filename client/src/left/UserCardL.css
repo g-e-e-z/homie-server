@@ -23,6 +23,12 @@
   margin-bottom: 10px;
 }
 
+.right-header {
+  min-height: 30px;
+  max-height: 30px;
+  padding-top: 8px;
+}
+
 .left-div img {
   border-radius: 20px;
   margin-top: 5px;
@@ -42,6 +48,23 @@
 
 .logout-btn {
   width: 95%;
+  margin-top: 10px !important;
+}
+
+.edit-btn {
+  color: lightgray !important;
+}
+
+.edit-input {
+  padding: 20px 0px !important;
+}
+
+.update-btn {
+  margin-top: 10px !important;
+  width: 95%;
+}
+
+.post-field {
   margin-top: 10px !important;
 }
 
