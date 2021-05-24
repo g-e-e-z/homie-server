@@ -30,8 +30,6 @@ module.exports = {
         user: user.id,
         username: user.username,
         createdAt: new Date().toISOString(),
-        likes: 0,
-        dislikes: 0,
       });
       const post = await newPost.save();
 
@@ -59,15 +57,19 @@ module.exports = {
       const user = await User.findOne({ username });
       post = await Post.findById(postId);
       if (post) {
-        if (user.liked.find((id) => id === postId)) {
-        } else if (user.disliked.find((id) => id === postId)) {
-          const postIndex = user.disliked.findIndex((id) => id == postId);
-          user.disliked.splice(postIndex, 1);
-          post.likes += 1;
-          post.dislikes -= 1;
+        if (post.likes.find((vote) => vote.username === username)) {
+        } else if (post.dislikes.find((vote) => vote.username === username)) {
+          user.disliked = user.disliked.filter(
+            (post) => post.id !== postId
+          ); /* Remove frm User Dislikes */
+          user.liked.push(postId); /* Add to User Likes */
+          post.dislikes = post.dislikes.filter(
+            (vote) => vote.username !== username
+          ); /* Remove from Post Dislikes */
+          post.likes.push({ username }); /* Add to Post Likes */
         } else {
           user.liked.push(postId);
-          post.likes += 1;
+          post.likes.push({ username });
         }
         await post.save();
         await user.save();
@@ -80,15 +82,20 @@ module.exports = {
       const user = await User.findOne({ username });
       post = await Post.findById(postId);
       if (post) {
-        if (user.disliked.find((id) => id === postId)) {
-        } else if (user.liked.find((id) => id === postId)) {
-          const postIndex = user.liked.findIndex((id) => id == postId);
-          user.liked.splice(postIndex, 1);
-          post.likes -= 1;
-          post.dislikes += 1;
+        if (post.dislikes.find((vote) => vote.username === username)) {
+        } else if (post.likes.find((vote) => vote.username === username)) {
+          user.liked = user.liked.filter(
+            (post) => post.id !== postId
+          ); /* Remove from User Likes */
+          user.disliked.push(postId); /* Add to User Dislikes*/
+
+          post.likes = post.likes.filter(
+            (vote) => vote.username !== username
+          ); /* Remove from Post Likes */
+          post.dislikes.push({ username }); /* Add to Post Dislikes */
         } else {
           user.disliked.push(postId);
-          post.dislikes += 1;
+          post.dislikes.push({ username });
         }
         await post.save();
         await user.save();

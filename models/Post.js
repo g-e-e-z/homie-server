@@ -4,8 +4,8 @@ const postSchema = new Schema({
   body: String,
   username: String,
   createdAt: String,
-  likes: Number,
-  dislikes: Number,
+  likes: [{ username: String }],
+  dislikes: [{ username: String }],
   comments: [
     {
       body: String,
