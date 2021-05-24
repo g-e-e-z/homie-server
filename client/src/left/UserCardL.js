@@ -115,8 +115,13 @@ const CREATE_POST_MUTATION = gql`
       body
       createdAt
       username
-      likes
-      dislikes
+      likes {
+        username
+      }
+      dislikes {
+        username
+      }
+      score
       comments {
         id
         createdAt

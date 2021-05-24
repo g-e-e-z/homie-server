@@ -1,26 +1,23 @@
 import React, { useEffect, useState } from "react";
 import { useMutation } from "@apollo/react-hooks";
-
 import gql from "graphql-tag";
 
 import { IconButton } from "@material-ui/core";
 import KeyboardArrowDownIcon from "@material-ui/icons/KeyboardArrowDown";
-import { FETCH_POSTS_QUERY } from "../util/graphql";
 
-function DislikeButton({ postId, user }) {
+function DislikeButton({ postInfo: { id, likes, dislikes }, user }) {
   const [disliked, setDisliked] = useState(false);
   useEffect(() => {
-    if (user && user.disliked.find((post) => post === postId)) {
+    if (user && dislikes.find((vote) => vote.username === user.username)) {
       setDisliked(true);
     } else setDisliked(false);
-  }, [user, postId, disliked]);
+  }, [user, likes, dislikes]);
 
   const [dislikePost] = useMutation(DISLIKE_POST, {
-    variables: { postId },
-    refetchQueries: { query: FETCH_POSTS_QUERY },
+    variables: { postId: id },
   });
 
-  const dislikeIcon = disliked ? "primary" : "disabled";
+  const dislikeIcon = disliked ? "secondary" : "disabled";
 
   return (
     <div>
@@ -37,8 +34,15 @@ const DISLIKE_POST = gql`
   mutation DisikePost($postId: ID!) {
     dislikePost(postId: $postId) {
       id
-      likes
-      dislikes
+      body
+      likes {
+        id
+        username
+      }
+      dislikes {
+        id
+        username
+      }
     }
   }
 `;

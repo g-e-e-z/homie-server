@@ -13,13 +13,13 @@ import Comment from "./Comment";
 import { AuthContext } from "../context/auth";
 
 function PostCard({
-  post: { body, createdAt, id, username, likes, dislikes, comments },
+  post: { body, createdAt, id, username, likes, dislikes, comments, score },
 }) {
   const { user } = useContext(AuthContext);
 
-  const votes = likes - dislikes;
-
   const [commPanel, setCommPanel] = useState(false);
+
+  const postInfo = { id, likes, dislikes };
 
   const toggleComm = useCallback(() => {
     setCommPanel((commPanel) => !commPanel);
@@ -31,7 +31,7 @@ function PostCard({
         <div className="post-header">
           <div className="post-left">
             <div className="post-votes">
-              <VoteButtons postId={id} user={user} votes={votes} />
+              <VoteButtons postInfo={postInfo} user={user} score={score} />
             </div>
             <img
               src="https://semantic-ui.com/images/avatar2/large/matthew.png"

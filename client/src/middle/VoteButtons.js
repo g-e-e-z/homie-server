@@ -4,7 +4,7 @@ import gql from "graphql-tag";
 import LikeButton from "./LikeButton";
 import DislikeButton from "./DislikeButton";
 
-function VoteButtons({ postId, user, votes }) {
+function VoteButtons({ postInfo, user, score }) {
   const userId = user.id;
 
   const { loading, data } = useQuery(FETCH_USER_QUERY, {
@@ -19,9 +19,9 @@ function VoteButtons({ postId, user, votes }) {
 
   return (
     <div>
-      <LikeButton postId={postId} user={getUser} />
-      <h5>{votes}</h5>
-      <DislikeButton postId={postId} user={getUser} />
+      <LikeButton postInfo={postInfo} user={getUser} />
+      <h5>{score}</h5>
+      <DislikeButton postInfo={postInfo} user={getUser} />
     </div>
   );
 }

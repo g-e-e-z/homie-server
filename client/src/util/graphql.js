@@ -6,15 +6,20 @@ export const FETCH_POSTS_QUERY = gql`
       id
       body
       createdAt
-      username
-      likes
-      dislikes
       comments {
         id
-        username
-        createdAt
         body
+        createdAt
+        username
       }
+      username
+      likes {
+        username
+      }
+      dislikes {
+        username
+      }
+      score
     }
   }
 `;
