@@ -1,6 +1,7 @@
 const { AuthenticationError, UserInputError } = require("apollo-server");
 
 const Post = require("../../models/Post");
+const User = require("../../models/User");
 const checkAuth = require("../../util/check-auth");
 
 module.exports = {
@@ -15,12 +16,16 @@ module.exports = {
         });
       }
       const post = await Post.findById(postId);
+      const user = await User.findOne({ username });
+      console.log(user);
+      console.log(user.id);
 
-      if (post) {
+      if (post && user) {
         post.comments.unshift({
           body,
           username,
           createdAt: new Date().toISOString(),
+          user: user.id,
         });
         await post.save();
         return post;

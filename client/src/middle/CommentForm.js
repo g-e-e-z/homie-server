@@ -65,6 +65,7 @@ const CREATE_COMM_MUTATION = gql`
         id
         username
       }
+      user
     }
   }
 `;

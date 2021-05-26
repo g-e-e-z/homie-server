@@ -1,8 +1,8 @@
 import React from "react";
 import { useQuery } from "@apollo/react-hooks";
-import gql from "graphql-tag";
 import LikeButton from "./LikeButton";
 import DislikeButton from "./DislikeButton";
+import { FETCH_USER_QUERY } from "../util/graphql";
 
 function VoteButtons({ postInfo, user, score }) {
   const userId = user.id;
@@ -25,16 +25,5 @@ function VoteButtons({ postInfo, user, score }) {
     </div>
   );
 }
-
-const FETCH_USER_QUERY = gql`
-  query ($userId: ID!) {
-    getUser(userId: $userId) {
-      id
-      username
-      disliked
-      liked
-    }
-  }
-`;
 
 export default VoteButtons;

@@ -1,7 +1,7 @@
 import React, { useContext } from "react";
 import gql from "graphql-tag";
-import { useMutation } from "@apollo/react-hooks";
-import { FETCH_POSTS_QUERY } from "../util/graphql";
+import { useMutation, useQuery } from "@apollo/react-hooks";
+import { FETCH_POSTS_QUERY, FETCH_USER_QUERY } from "../util/graphql";
 import "./UserCardL.css";
 import { AuthContext } from "../context/auth";
 import { Button, TextField } from "@material-ui/core";
@@ -37,9 +37,17 @@ function UserCardL() {
   });
 
   // TODO If token has expired call logout onSubmit instead of attempting to submit
-
   function createPostCallback() {
     createPost();
+  }
+
+  const { loading, data } = useQuery(FETCH_USER_QUERY, {
+    variables: { userId: user.id },
+  });
+  if (!loading) {
+    var { getUser } = data;
+  } else {
+    return <p>Loading User</p>;
   }
 
   return (
@@ -47,7 +55,10 @@ function UserCardL() {
       <div className="user-card-container">
         <div className="left-div">
           <img
-            src="https://semantic-ui.com/images/avatar2/large/matthew.png"
+            src={
+              getUser.pfp ||
+              "https://semantic-ui.com/images/avatar2/large/matthew.png"
+            }
             alt="boop"
             className="avatar"
           ></img>
@@ -58,15 +69,12 @@ function UserCardL() {
           </div>
 
           <div className="right-body">
-            <p>
-              Lorem ipsum dolor, sit amet consectetur adipisicing elit. Optio
-              repellat quaerat recusandae est quo ipsum nam. Magnam ut eos odio.
-            </p>
+            <p>{getUser.bio || "Wow Alex, super cool website!"}</p>
           </div>
         </div>
       </div>
       <div className="post-container">
-        <EditButton />
+        <EditButton userInfo={getUser} />
         <form onSubmit={onSubmit}>
           <TextField
             id="outlined-multiline-static"

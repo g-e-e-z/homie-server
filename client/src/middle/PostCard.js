@@ -11,9 +11,21 @@ import CommentForm from "./CommentForm";
 import Comment from "./Comment";
 
 import { AuthContext } from "../context/auth";
+import { useQuery } from "@apollo/client";
+import { FETCH_USER_QUERY } from "../util/graphql";
 
 function PostCard({
-  post: { body, createdAt, id, username, likes, dislikes, comments, score },
+  post: {
+    body,
+    createdAt,
+    id,
+    username,
+    user: poster,
+    likes,
+    dislikes,
+    comments,
+    score,
+  },
 }) {
   const { user } = useContext(AuthContext);
 
@@ -25,6 +37,15 @@ function PostCard({
     setCommPanel((commPanel) => !commPanel);
   }, []);
 
+  const { loading, data } = useQuery(FETCH_USER_QUERY, {
+    variables: { userId: poster },
+  });
+  if (!loading) {
+    var { getUser } = data;
+  } else {
+    return <p>Loading Post</p>;
+  }
+
   return (
     <>
       <div className="post-card">
@@ -33,10 +54,7 @@ function PostCard({
             <div className="post-votes">
               <VoteButtons postInfo={postInfo} user={user} score={score} />
             </div>
-            <img
-              src="https://semantic-ui.com/images/avatar2/large/matthew.png"
-              alt="boop"
-            />
+            <img src={getUser.pfp} alt="boop" />
           </div>
           <div className="post-right">
             <div className="post-details">

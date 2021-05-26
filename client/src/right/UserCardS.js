@@ -1,15 +1,25 @@
 import React from "react";
+import { useQuery } from "@apollo/client";
+import { FETCH_USER_QUERY } from "../util/graphql";
 import "./UserCardS.css";
 
 function UserCardS({ user }) {
-  const bio =
-    "Lorem ipsum dolor, sit amet consectetur adipisicing elit. Optio repellat quaerat recusandae est quo ipsum nam. Magnam ut eos odio.";
-
+  const { loading, data } = useQuery(FETCH_USER_QUERY, {
+    variables: { userId: user.id },
+  });
+  if (!loading) {
+    var { getUser } = data;
+  } else {
+    return <p>Loading User</p>;
+  }
   return (
     <div className="c-card-container">
       <div className="c-left-div">
         <img
-          src="https://semantic-ui.com/images/avatar2/large/matthew.png"
+          src={
+            getUser.pfp ||
+            "https://semantic-ui.com/images/avatar2/large/matthew.png"
+          }
           alt="boop"
           className="c-avatar"
         ></img>
@@ -19,7 +29,7 @@ function UserCardS({ user }) {
           <h3>{user.username}</h3>
         </div>
         <div className="c-right-body">
-          <p className="c-bio">{bio}</p>
+          <p className="c-bio">{getUser.bio}</p>
         </div>
       </div>
     </div>

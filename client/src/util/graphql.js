@@ -11,6 +11,7 @@ export const FETCH_POSTS_QUERY = gql`
         body
         createdAt
         username
+        user
       }
       username
       likes {
@@ -20,6 +21,20 @@ export const FETCH_POSTS_QUERY = gql`
         username
       }
       score
+      user
+    }
+  }
+`;
+
+export const FETCH_USER_QUERY = gql`
+  query ($userId: ID!) {
+    getUser(userId: $userId) {
+      id
+      username
+      disliked
+      liked
+      pfp
+      bio
     }
   }
 `;

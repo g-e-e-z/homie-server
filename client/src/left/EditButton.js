@@ -3,19 +3,36 @@ import { Button } from "@material-ui/core";
 
 import EditFields from "./EditFields";
 
-function EditButton() {
+function EditButton({ userInfo }) {
   const [editPanel, setEditPanel] = useState(false);
 
-  const toggleEdit = useCallback(() => {
+  const toggleEdit = useCallback((e) => {
     setEditPanel((editPanel) => !editPanel);
   }, []);
 
   return (
     <div>
-      <Button onClick={toggleEdit} className="edit-btn">
-        Edit Profile
-      </Button>
-      {editPanel ? <EditFields className="edit-input" /> : ""}
+      <div>
+        <Button type="submit" onClick={toggleEdit} className="edit-btn">
+          Edit Profile
+        </Button>
+      </div>
+      {editPanel ? (
+        <>
+          {/* <EditFields
+            className="edit-input"
+            userInfo={userInfo}
+            field={"pfp"}
+          /> */}
+          <EditFields
+            className="edit-input"
+            userInfo={userInfo}
+            field={"bio"}
+          />
+        </>
+      ) : (
+        ""
+      )}
     </div>
   );
 }

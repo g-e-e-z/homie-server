@@ -43,6 +43,7 @@ const DISLIKE_POST = gql`
         id
         username
       }
+      score
     }
   }
 `;

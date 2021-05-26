@@ -101,6 +101,8 @@ module.exports = {
       const newUser = new User({
         username,
         password,
+        pfp: "https://semantic-ui.com/images/avatar2/large/matthew.png",
+        bio: "I need to make a new bio!",
         email,
         liked: [],
         disliked: [],
@@ -116,6 +118,28 @@ module.exports = {
         id: res._id,
         token,
       };
+    },
+
+    async changeBio(_, { username, body }, context) {
+      if (body.length > 144) {
+        throw new UserInputError("Bio must be under 144 characters.");
+      }
+      const user = await User.findOne({ username });
+      user.bio = body;
+      await user.save();
+      return user;
+    },
+
+    async changePicture(_, { username, link }, context) {
+      const regEx =
+        /https?:\/\/(www\.)?[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_\+.~#?&//=]*)/;
+      if (!link.match(regEx)) {
+        throw new UserInputError("Link must be a valid https website");
+      }
+      const user = await User.findOne({ username });
+      user.pfp = link;
+      await user.save();
+      return user;
     },
   },
 };

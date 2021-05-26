@@ -43,6 +43,7 @@ const LIKE_POST = gql`
         id
         username
       }
+      score
     }
   }
 `;
