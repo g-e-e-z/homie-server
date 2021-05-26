@@ -19,11 +19,11 @@ function EditButton({ userInfo }) {
       </div>
       {editPanel ? (
         <>
-          {/* <EditFields
+          <EditFields
             className="edit-input"
             userInfo={userInfo}
             field={"pfp"}
-          /> */}
+          />
           <EditFields
             className="edit-input"
             userInfo={userInfo}

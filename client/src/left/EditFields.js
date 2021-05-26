@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { useMutation } from "@apollo/react-hooks";
 import gql from "graphql-tag";
 
@@ -16,23 +16,27 @@ function EditFields({ userInfo, field }) {
     var fieldValue = userInfo.bio;
   }
 
-  const { values, onChange, onSubmit } = useForm(updateField, {
-    body: "test",
-  });
+  const { values, onChange, onSubmit } = useForm(updateField, {});
+  const [errors, setErrors] = useState({});
 
   const [changeField, { error }] = useMutation(mutation, {
+    onError(err) {
+      setErrors(err.graphQLErrors[0]);
+    },
     variables: {
       username: userInfo.username,
-      body: values,
+      body: values.body,
+    },
+    if(error) {
+      console.log(error);
     },
   });
 
   function updateField() {
-    console.log(values);
-    console.log(typeof userInfo.username);
-    console.log(typeof values.body);
     changeField();
   }
+
+  console.log(errors);
 
   return (
     <>
@@ -47,6 +51,7 @@ function EditFields({ userInfo, field }) {
           onChange={onChange}
           value={values.body}
           error={error ? true : false}
+          helperText={errors.message}
         />
         <Button type="submit" variant="contained" className="update-btn">
           {btnLabel}
@@ -66,8 +71,8 @@ const CHANGE_BIO = gql`
   }
 `;
 const CHANGE_PICTURE = gql`
-  mutation changePicture($username: String!, $link: String!) {
-    changePicture(username: $username, link: $link) {
+  mutation changePicture($username: String!, $body: String!) {
+    changePicture(username: $username, body: $body) {
       id
     }
   }

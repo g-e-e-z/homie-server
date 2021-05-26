@@ -39,7 +39,6 @@ function MainFeed() {
             data.getPosts.map((post) => (
               <Grow in={true} timeout={200} key={post.id}>
                 <div className="feed-post" key={post.id}>
-                  {console.log(post.user)}
                   <PostCard post={post} />
                 </div>
               </Grow>

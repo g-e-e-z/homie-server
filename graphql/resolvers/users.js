@@ -121,8 +121,8 @@ module.exports = {
     },
 
     async changeBio(_, { username, body }, context) {
-      if (body.length > 144) {
-        throw new UserInputError("Bio must be under 144 characters.");
+      if (body.length > 70) {
+        throw new UserInputError("Bio must be under 70 characters.");
       }
       const user = await User.findOne({ username });
       user.bio = body;
@@ -130,14 +130,14 @@ module.exports = {
       return user;
     },
 
-    async changePicture(_, { username, link }, context) {
+    async changePicture(_, { username, body }, context) {
       const regEx =
         /https?:\/\/(www\.)?[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_\+.~#?&//=]*)/;
-      if (!link.match(regEx)) {
+      if (!body.match(regEx)) {
         throw new UserInputError("Link must be a valid https website");
       }
       const user = await User.findOne({ username });
-      user.pfp = link;
+      user.pfp = body;
       await user.save();
       return user;
     },
