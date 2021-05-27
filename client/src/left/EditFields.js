@@ -6,15 +6,10 @@ import { Button, TextField } from "@material-ui/core";
 import { useForm } from "../util/hooks";
 
 function EditFields({ userInfo, field }) {
-  if (field === "pfp") {
-    var mutation = CHANGE_PICTURE;
-    var btnLabel = "Update Profile Picture";
-    var fieldValue = userInfo.pfp;
-  } else {
-    var mutation = CHANGE_BIO;
-    var btnLabel = "Update Bio";
-    var fieldValue = userInfo.bio;
-  }
+  var mutation = field === "pfp" ? CHANGE_PICTURE : CHANGE_BIO;
+  var btnLabel = field === "pfp" ? "Update Profile Picture" : "Update Bio";
+  var fieldLabel = field === "pfp" ? "Edit Profile Picture" : "Edit Bio";
+  var fieldValue = field === "pfp" ? userInfo.pfp : userInfo.bio;
 
   const { values, onChange, onSubmit } = useForm(updateField, {});
   const [errors, setErrors] = useState({});
@@ -27,23 +22,18 @@ function EditFields({ userInfo, field }) {
       username: userInfo.username,
       body: values.body,
     },
-    if(error) {
-      console.log(error);
-    },
   });
 
   function updateField() {
     changeField();
   }
 
-  console.log(errors);
-
   return (
     <>
       <form className="edit-input" onSubmit={onSubmit}>
         <TextField
           id="outlined-multiline-static"
-          label="Edit Profile Picture"
+          label={fieldLabel}
           defaultValue={fieldValue}
           variant="outlined"
           fullWidth

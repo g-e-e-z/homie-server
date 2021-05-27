@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { useQuery } from "@apollo/react-hooks";
 import { FETCH_POSTS_QUERY } from "../util/graphql";
 import { AuthContext } from "../context/auth";
@@ -13,7 +13,6 @@ import PostCard from "./PostCard";
 import "./MainFeed.css";
 
 function MainFeed() {
-  const { loading, data } = useQuery(FETCH_POSTS_QUERY);
   const [selectedTab, setSelectedTab] = useState(0);
   const { user } = useContext(AuthContext);
 
@@ -21,22 +20,39 @@ function MainFeed() {
     setSelectedTab(newValue);
   };
 
+  const { loading, data } = useQuery(FETCH_POSTS_QUERY);
+
+  if (!loading) {
+    var newData = [...data.getPosts]; // Recent
+    if (selectedTab === 1) {
+      newData = newData.sort((a, b) => a.score < b.score);
+    } else if (selectedTab === 2) {
+      newData = newData.sort((a, b) => a.comments < b.comments);
+    }
+  }
+
+  useEffect(() => {
+    if (!loading && !!data) {
+      setSelectedTab(selectedTab);
+    }
+  }, [data, loading, selectedTab]);
+
   return (
     <div className="main-feed">
       <div className="feed-header">
         <Tabs value={selectedTab} onChange={handleChange} centered>
           <Tab label="Recent" />
-          <Tab label="Hot" />
           <Tab label="Top" />
+          <Tab label="Popular" />
         </Tabs>
       </div>
       <div className="feed-body">
         {user ? (
-          loading ? (
+          loading || !newData ? (
             <h1>Loading Posts..</h1>
           ) : (
-            data.getPosts &&
-            data.getPosts.map((post) => (
+            newData &&
+            newData.map((post) => (
               <Grow in={true} timeout={200} key={post.id}>
                 <div className="feed-post" key={post.id}>
                   <PostCard post={post} />

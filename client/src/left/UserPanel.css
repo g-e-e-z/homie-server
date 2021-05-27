@@ -1,5 +1,5 @@
 .user-panel {
-  flex: 0.3;
+  flex: 0.3 !important;
   /* background-color: lightgreen; */
   /* margin-top: 20px;
   padding-left: 20px;

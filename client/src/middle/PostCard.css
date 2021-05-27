@@ -77,6 +77,8 @@
 
 .post-body {
   flex-grow: 2;
+  word-break: break-all;
+  word-wrap: break-word;
 }
 .post-footer {
   padding: 0 !important;
