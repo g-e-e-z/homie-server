@@ -1,5 +1,4 @@
 .main-feed {
-  /* background-color: cornflowerblue; */
   overflow-y: scroll;
   flex: 0.4;
 }
@@ -20,6 +19,16 @@
   padding-bottom: 5px;
 }
 
+.feed-body h1 {
+  text-align: center;
+}
+
 .feed-post {
   padding-bottom: 10px;
+}
+
+@media only screen and (max-width: 900px) {
+  .main-feed {
+    flex: 0.6;
+  }
 }

@@ -10,10 +10,12 @@ import { AuthProvider } from "./context/auth";
 function App() {
   return (
     <AuthProvider>
-      <div className="ui-container">
-        <UserPanel />
-        <MainFeed />
-        <CommunityPanel />
+      <div className="all">
+        <div className="ui-container">
+          <UserPanel />
+          <MainFeed />
+          <CommunityPanel />
+        </div>
       </div>
     </AuthProvider>
   );

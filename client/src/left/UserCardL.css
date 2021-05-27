@@ -7,8 +7,8 @@
   margin-top: 55px;
   justify-content: center;
   text-align: center;
-  margin-left: auto;
-  margin-right: auto;
+  /* margin-left: auto;
+  margin-right: auto; */
   padding-bottom: 5px;
 }
 
@@ -18,9 +18,8 @@
   border: 1px;
   border-color: black;
   border-radius: 10px;
-  margin: auto;
+  margin: 10px auto;
   display: flex;
-  margin-bottom: 10px;
 }
 
 .right-div {
