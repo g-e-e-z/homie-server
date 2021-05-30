@@ -17,8 +17,6 @@ module.exports = {
       }
       const post = await Post.findById(postId);
       const user = await User.findOne({ username });
-      console.log(user);
-      console.log(user.id);
 
       if (post && user) {
         post.comments.unshift({
